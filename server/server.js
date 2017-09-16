@@ -19,7 +19,7 @@ app.use(express.static(publicPath));
 // io.to('roomname').emit -> event to every user in a room
 // socket.broadcast.emit -> event to every user in every room, except for user of socket
 // socket.broadcast.to('roomname').emit -> event to every user in a room, except for user of socket
-// socket.emit -> event only to user of socket
+// socket.emit -> event to/from user of socket
 io.on('connection', (socket) => {
     console.log('connected to client');
 
@@ -46,14 +46,19 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createMessage', (message, acknowledge) => {
-        console.log('createMessage detected:', message);
-        io.emit('newMessage', generateMessage(message.from, message.text));
+        var user = users.getUser(socket.id);
+        if (user && isRealString(message.text)) {
+            io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+        }
         acknowledge();
     });
 
     socket.on('createLocationMessage', (coords) => {
         console.log('createLocationMessage detected:', coords);
-        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+        var user = users.getUser(socket.id);
+        if (user && coords) {
+            io.emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));            
+        }
     });
 });
 
