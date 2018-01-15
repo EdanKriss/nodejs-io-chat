@@ -1,5 +1,5 @@
 const moment = require('moment');
-const API_KEY = require('../api-key');
+const API_KEY = process.env.API_KEY || require('../api-key');
 
 module.exports.generateMessage = (from, text) => {
     return {
