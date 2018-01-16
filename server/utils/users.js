@@ -24,6 +24,16 @@ class Users {
 
         return namesArray;
     }
+    getRoomList () {
+        var rooms = this.users.map((user) => {return user.room});
+        return rooms = this.removeDuplicateStrings(rooms);
+    }
+    removeDuplicateStrings (array) {
+        var seen = {};
+        return array.filter((item) => {
+            return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+        });
+    }
 }
 
 // module.exports = Users;

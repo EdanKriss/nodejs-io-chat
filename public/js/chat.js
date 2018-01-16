@@ -17,7 +17,7 @@ function scrollToBottom() {
 
 socket.on('connect', function() {
     var params = jQuery.deparam(window.location.search);
-
+    
     socket.emit('join', params, function (err) {
         if (err) {
             alert(err);
@@ -30,7 +30,6 @@ socket.on('connect', function() {
 
 socket.on('disconnect', function() {
     console.log('disconnected from server');
-    
 });
 
 socket.on('updateUserList', function (users) {
@@ -76,6 +75,17 @@ jQuery('#message-form').on('submit', function (e) {
     }, function () { // acknowledge callback
         messageBox.val('');
     });
+});
+
+jQuery('#sidebar-button').on('click', function () {
+    var userSidebar = jQuery('.chat__sidebar');
+    if (userSidebar.css('display') === 'none') {
+        console.log('display is none');
+        userSidebar.css('display', 'block');
+    } else if (userSidebar.css('display') !== 'none') {
+        console.log('display isnt none');        
+        userSidebar.css('display', 'none');
+    }
 });
 
 var locationButton = jQuery('#send-location');

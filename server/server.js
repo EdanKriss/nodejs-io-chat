@@ -23,6 +23,10 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
     console.log('connected to client');
 
+    socket.on('splash', () => {
+        socket.emit('updateRoomList', users.getRoomList());
+    });
+
     socket.on('join', (params, acknowledge) => {
         if (!isRealString(params.name) || !isRealString(params.room)) {
             return acknowledge('Display Name and Room Name are required');
