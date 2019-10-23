@@ -100,8 +100,9 @@ locationButton.on('click', function () {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
         });
-    }, function () { // failure callback
+        console.log(position.coords);
+    }, function (error) { // failure callback
         locationButton.removeAttr('disabled').text('Send Location');
-        alert('Unable to fetch location');
+        alert('Unable to fetch location', error);
     });
 });

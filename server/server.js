@@ -68,4 +68,5 @@ io.on('connection', (socket) => {
 
 server.listen(port, () => {
     console.log(`chat app is now listening on PORT: ${port}`);
+    console.log(`http://localhost:${port}`);
 });
